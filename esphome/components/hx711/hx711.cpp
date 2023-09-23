@@ -47,7 +47,7 @@ bool HX711Sensor::read_sensor_(unsigned int *result) {
     for (uint8_t i = 0; i < 24; i++) {
       this->sck_pin_->digital_write(true);
       delayMicroseconds(1);
-      data |= unsigned int(this->dout_pin_->digital_read()) << (23 - i);
+      data |= (unsigned int)(this->dout_pin_->digital_read()) << (23 - i);
       this->sck_pin_->digital_write(false);
       delayMicroseconds(1);
     }
