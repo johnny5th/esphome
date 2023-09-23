@@ -25,7 +25,7 @@ class HX711Sensor : public sensor::Sensor, public PollingComponent {
   void update() override;
 
  protected:
-  bool read_sensor_(uint32_t *result);
+  bool read_sensor_(unsigned int *result);
 
   GPIOPin *dout_pin_;
   GPIOPin *sck_pin_;

@@ -25,14 +25,14 @@ void HX711Sensor::dump_config() {
 }
 float HX711Sensor::get_setup_priority() const { return setup_priority::DATA; }
 void HX711Sensor::update() {
-  uint32_t result;
+  unsigned int result;
   if (this->read_sensor_(&result)) {
-    int32_t value = static_cast<int32_t>(result);
+    int value = static_cast<int>(result);
     ESP_LOGD(TAG, "'%s': Got value %d", this->name_.c_str(), value);
     this->publish_state(value);
   }
 }
-bool HX711Sensor::read_sensor_(uint32_t *result) {
+bool HX711Sensor::read_sensor_(unsigned int *result) {
   if (this->dout_pin_->digital_read()) {
     ESP_LOGW(TAG, "HX711 is not ready for new measurements yet!");
     this->status_set_warning();
@@ -40,14 +40,14 @@ bool HX711Sensor::read_sensor_(uint32_t *result) {
   }
 
   this->status_clear_warning();
-  uint32_t data = 0;
+  unsigned int data = 0;
 
   {
     InterruptLock lock;
     for (uint8_t i = 0; i < 24; i++) {
       this->sck_pin_->digital_write(true);
       delayMicroseconds(1);
-      data |= uint32_t(this->dout_pin_->digital_read()) << (23 - i);
+      data |= unsigned int(this->dout_pin_->digital_read()) << (23 - i);
       this->sck_pin_->digital_write(false);
       delayMicroseconds(1);
     }
